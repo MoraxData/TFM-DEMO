@@ -6,6 +6,7 @@ import cv2
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
 import pandas as pd
 
+
 # Clases de predicción para la CNN
 class_names = ['Tomato___Bacterial_spot',
  'Tomato___Early_blight',
@@ -18,11 +19,12 @@ class_names = ['Tomato___Bacterial_spot',
  'Tomato___healthy']
 
 # Cargamos el archivo de las enfermedades
-file = r'C:\Users\morad\OneDrive\Documentos\Master IA\TFM\enfermedades_tomates.xlsx'
+file = 'C:\\Users\\morad\\OneDrive\\Documentos\\Master IA\\TFM\\app_TFM\\enfermedades_tomates.xlsx'
+
 enfermedades = pd.read_excel(file)
 
 # Cargar el modelo previamente entrenado
-model = tf.keras.models.load_model("C:\\Users\\morad\\OneDrive\\Documentos\\Master IA\\TFM\\models\\modelo_9_mobile.h5")
+model = tf.keras.models.load_model("C:\\Users\\morad\\OneDrive\\Documentos\\Master IA\\TFM\\app_TFM\\models\\modelo_9_mobile.h5")
 
 # Función para predicción basada en imágenes cargadas
 def model_predicion(img):
