@@ -20,7 +20,7 @@ class_names = ['Tomato___Bacterial_spot',
 
 # Cargamos el archivo de las enfermedades
 # file = 'C:\\Users\\morad\\OneDrive\\Documentos\\Master IA\\TFM\\app_TFM\\enfermedades_tomates.xlsx'
-file = '/enfermedades_tomates.xlsx'
+file = 'https://github.com/MoraxData/TFM-Demo/blob/84dc68e9ca8c98b164a5146c59f01f02e4b1c449/enfermedades_tomates.xlsx'
 
 
 enfermedades = pd.read_excel(file)
