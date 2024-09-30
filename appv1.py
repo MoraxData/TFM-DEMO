@@ -61,7 +61,7 @@ app_mode = st.sidebar.selectbox("Navegación de páginas", ["Inicio", "Prueba de
 if app_mode == "Inicio":
     st.markdown("# Sistema de detección de enfermedades en hojas de tomate")
     # img_ruta = "C:\\Users\\morad\\OneDrive\\Documentos\\Master IA\\TFM\\app_TFM\\image_web.png"
-    img_ruta = ".\\image_web.png"
+    img_ruta = "image_web.png"
 
     st.image(img_ruta, use_column_width=True)
     st.markdown("""
