@@ -27,7 +27,7 @@ enfermedades = pd.read_excel(file)
 
 # Cargar el modelo previamente entrenado
 # model = tf.keras.models.load_model("C:\\Users\\morad\\OneDrive\\Documentos\\Master IA\\TFM\\app_TFM\\models\\modelo_9_mobile.h5")
-model = tf.keras.models.load_model(".//models//modelo_9_mobile.h5")
+model = tf.keras.models.load_model("models/modelo_9_mobile.h5")
 
 # Función para predicción basada en imágenes cargadas
 def model_predicion(img):
