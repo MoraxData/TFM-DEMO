@@ -5,7 +5,7 @@ import numpy as np
 import cv2
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
 import pandas as pd
-tf.__version__
+
 
 # Clases de predicción para la CNN
 class_names = ['Tomato___Bacterial_spot',
@@ -20,7 +20,7 @@ class_names = ['Tomato___Bacterial_spot',
 
 # Cargamos el archivo de las enfermedades
 # file = 'C:\\Users\\morad\\OneDrive\\Documentos\\Master IA\\TFM\\app_TFM\\enfermedades_tomates.xlsx'
-file = '.\\enfermedades_tomates.xlsx'
+file = '/enfermedades_tomates.xlsx'
 
 
 enfermedades = pd.read_excel(file)
