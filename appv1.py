@@ -5,7 +5,7 @@ import numpy as np
 import cv2
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
 import pandas as pd
-
+tf.__version__
 
 # Clases de predicción para la CNN
 class_names = ['Tomato___Bacterial_spot',
@@ -19,12 +19,15 @@ class_names = ['Tomato___Bacterial_spot',
  'Tomato___healthy']
 
 # Cargamos el archivo de las enfermedades
-file = 'C:\\Users\\morad\\OneDrive\\Documentos\\Master IA\\TFM\\app_TFM\\enfermedades_tomates.xlsx'
+# file = 'C:\\Users\\morad\\OneDrive\\Documentos\\Master IA\\TFM\\app_TFM\\enfermedades_tomates.xlsx'
+file = '.\\enfermedades_tomates.xlsx'
+
 
 enfermedades = pd.read_excel(file)
 
 # Cargar el modelo previamente entrenado
-model = tf.keras.models.load_model("C:\\Users\\morad\\OneDrive\\Documentos\\Master IA\\TFM\\app_TFM\\models\\modelo_9_mobile.h5")
+# model = tf.keras.models.load_model("C:\\Users\\morad\\OneDrive\\Documentos\\Master IA\\TFM\\app_TFM\\models\\modelo_9_mobile.h5")
+model = tf.keras.models.load_model(".//models//modelo_9_mobile.h5")
 
 # Función para predicción basada en imágenes cargadas
 def model_predicion(img):
@@ -57,7 +60,9 @@ app_mode = st.sidebar.selectbox("Navegación de páginas", ["Inicio", "Prueba de
 # Página de inicio
 if app_mode == "Inicio":
     st.markdown("# Sistema de detección de enfermedades en hojas de tomate")
-    img_ruta = "C:\\Users\\morad\\OneDrive\\Documentos\\Master IA\\TFM\\image_web.png"
+    # img_ruta = "C:\\Users\\morad\\OneDrive\\Documentos\\Master IA\\TFM\\app_TFM\\image_web.png"
+    img_ruta = ".\\image_web.png"
+
     st.image(img_ruta, use_column_width=True)
     st.markdown("""
    
