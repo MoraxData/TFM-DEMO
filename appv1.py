@@ -107,10 +107,10 @@ elif app_mode == "Contacto":
 
     # Logo de LinkedIn
     with col1:
-        st.image("linkedin_logo.png", width=40)
+        st.image("https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png", width=40)
 
     with col2:
-        st.markdown("### [Perfil en LinkedIn](#)", unsafe_allow_html=True)  # Enlace actualizado o marcador
+        st.markdown("### [LinkedIn](https://www.linkedin.com/in/morad-c-25b976202)", unsafe_allow_html=True)  # Enlace actualizado o marcador
 
     st.markdown("---")
 
@@ -118,10 +118,10 @@ elif app_mode == "Contacto":
 
     # Logo de correo electrónico
     with col1:
-        st.image("email_logo.png", width=40)
+        st.image("https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg", width=40)
 
     with col2:
-        st.markdown("### [Enviar un correo electrónico](#)", unsafe_allow_html=True)  # Enlace actualizado o marcador
+        st.markdown("### [Enviar un correo electrónico](mailto:morad11jr@gmail.com)", unsafe_allow_html=True)  # Enlace actualizado o marcador
 
     st.markdown("---")
 
