@@ -7,7 +7,7 @@ from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
 import pandas as pd
 
 
-# Clases de predicción para la CNN
+# Clases de nuestro problema
 class_names = ['Tomato___Bacterial_spot',
  'Tomato___Early_blight',
  'Tomato___Late_blight',
@@ -18,8 +18,7 @@ class_names = ['Tomato___Bacterial_spot',
  'Tomato___Tomato_mosaic_virus',
  'Tomato___healthy']
 
-# Cargamos el archivo de las enfermedades
-# file = 'C:\\Users\\morad\\OneDrive\\Documentos\\Master IA\\TFM\\app_TFM\\enfermedades_tomates.xlsx'
+# Informe Excel de los resultados a devolver 
 file = 'enfermedades_tomates.xlsx'
 
 
@@ -27,35 +26,40 @@ enfermedades = pd.read_excel(file)
 
 # Cargar el modelo previamente entrenado
 # model = tf.keras.models.load_model("C:\\Users\\morad\\OneDrive\\Documentos\\Master IA\\TFM\\app_TFM\\models\\modelo_9_mobile.h5")
-model = tf.keras.models.load_model("models/modelo_9_mobile.h5")
+model = tf.keras.models.load_model("models/modelo_9_mobile.h5") # Ruta github
 
 # Función para predicción basada en imágenes cargadas
 def model_predicion(img):
-    # Convertir la imagen a formato compatible
+    ###############################################
+    ########## Preprocesamiento ###################
+    ###############################################
     img = img.resize((256, 256))  # Asegurarse de que el tamaño sea 256x256
-    img_array = tf.keras.preprocessing.image.img_to_array(img)  # Convertir a array numpy
-    img_array = np.expand_dims(img_array, axis=0)  # Expandir dimensiones para batch
+    img_array = tf.keras.preprocessing.image.img_to_array(img)  # Convertir a array
+    img_array = np.expand_dims(img_array, axis=0)  # Expandir dimensiones para batch (el batch tiene 4)
     img_array /= 255.0  # Normalizar de la misma manera que en el entrenamiento
+    ###############################################
+    ##########  Fin preprocesamiento ##############
+    ###############################################
 
-    predictions = model.predict(img_array)
+    predictions = model.predict(img_array) # Generamos la prediccion
     predicted_class = np.argmax(predictions, axis=1)[0]
     predicted_probability = predictions[0][predicted_class] * 100  # Convertir a porcentaje
     return predicted_class, predicted_probability
 
 # Función para predicción desde la cámara
 def model_predicion_camera(img):
-    img = cv2.resize(img, (256, 256))  # Redimensionar la imagen
+    img = cv2.resize(img, (256, 256))  # Redimensionar la imagen. Como la imagen viene de cámara, usar openpyxl
     img_array = tf.keras.preprocessing.image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)  # Expandir dimensiones para batch
     img_array /= 255.0  # Normalizar
 
-    predictions = model.predict(img_array)
+    predictions = model.predict(img_array) # Lanzamos predicción
     predicted_class = np.argmax(predictions, axis=1)[0]
     predicted_probability = predictions[0][predicted_class] * 100  # Convertir a porcentaje
     return predicted_class, predicted_probability
 
-# Sidebar de navegación
-app_mode = st.sidebar.selectbox("Navegación de páginas", ["Inicio", "Prueba del modelo", "Capturar imagen", "Contacto"])
+# Pagina de navegación
+app_mode = st.sidebar.selectbox("Navegación de páginas", ["Inicio", "Prueba del modelo", "Contacto"])
 
 # Página de inicio
 if app_mode == "Inicio":
@@ -78,7 +82,7 @@ Esta aplicación ha sido desarrollada para demostrar la capacidad de las **Redes
 1. **Carga o captura una imagen**: Usa la ventana de _Prueba del modelo_  para seleccionar una imagen o la ventana _Capturar imagen_ para tomar una fotografía desde tu dispositivo
 2. **Procesamiento**: Una vez cargada, la imagen será procesada por el modelo CNN en segundo plano.
 3. **Predicción**: La aplicación mostrará la predicción devuelta modelo por el modelo, junto a su probabilidad asociada a la predicción.
-4. **Información**: La aplicación aportará información sobre la enfermedad capturada como las causas, tratamientos, comentarios...
+4. **Información**: La aplicación aportará información sobre la enfermedad capturada como las causas, tratamientos, comentarios, etc.
 
 
 
@@ -104,7 +108,7 @@ elif app_mode == "Prueba del modelo":
         if st.button("Predecir"):
             pred, prob = model_predicion(imagen)
             st.success(f"El modelo ha predicho que se trata de {class_names[pred]} con una confianza del {prob:.2f}%")
-            if class_names[pred]!= 'Tomato___healthy':
+            if class_names[pred]!= 'Tomato___healthy': # Si la clase es healthy no devuevle información
                 filtro = enfermedades[enfermedades['Enfermedad'] == class_names[pred]]
                 st.markdown("""
 ## Síntomas
@@ -124,29 +128,28 @@ elif app_mode == "Prueba del modelo":
                 st.write(filtro["Comentarios"].values[0])
                 st.markdown("""
 ## [+ Info]
-[PlantViallge\Tomato](https://plantvillage.psu.edu/topics/tomato/infos)
+[PlantVillage\Tomato](https://plantvillage.psu.edu/topics/tomato/infos)
                             
 """)
 
 # Página de captura de imagen (cámara)
-elif app_mode == "Capturar imagen":
+# elif app_mode == "Capturar imagen":
+#     class VideoTransformer(VideoTransformerBase):
+#         def __init__(self):
+#             self.snapshot = None
 
-    class VideoTransformer(VideoTransformerBase):
-        def __init__(self):
-            self.snapshot = None
+#         def transform(self, frame):
+#             img_ = frame.to_ndarray(format="bgr24")
+#             self.snapshot = img_  # Guardar la imagen capturada
+#             return img_
 
-        def transform(self, frame):
-            img_ = frame.to_ndarray(format="bgr24")
-            self.snapshot = img_  # Guardar la imagen capturada
-            return img_
+#     webrtc_ctx = webrtc_streamer(key="example", video_transformer_factory=VideoTransformer)
 
-    webrtc_ctx = webrtc_streamer(key="example", video_transformer_factory=VideoTransformer)
-
-    if webrtc_ctx.video_transformer and webrtc_ctx.video_transformer.snapshot is not None:
-        if st.button("Predecir"):
-            img_ = webrtc_ctx.video_transformer.snapshot
-            pred, prob = model_predicion_camera(img_)
-            st.success(f"El modelo ha predicho que se trata de {class_names[pred]} con una confianza del {prob:.2f}%")
+#     if webrtc_ctx.video_transformer and webrtc_ctx.video_transformer.snapshot is not None:
+#         if st.button("Predecir"):
+#             img_ = webrtc_ctx.video_transformer.snapshot
+#             pred, prob = model_predicion_camera(img_)
+#             st.success(f"El modelo ha predicho que se trata de {class_names[pred]} con una confianza del {prob:.2f}%")
 
 
 elif app_mode == "-Contacto":
@@ -166,10 +169,10 @@ elif app_mode == "Contacto":
     st.title("Contacto")
     st.markdown("## ¡Conecta conmigo!")
 
-    # Crear columnas para una mejor organización
+    # Crear columnas para separar secciones
     col1, col2 = st.columns([1, 4])
 
-    # Colocar el logo de LinkedIn en la primera columna y el enlace en la segunda columna
+    # Colocar logo linkedIn en la primera columna y el enlace en la segunda columna
     with col1:
         st.image("https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png", width=40)
 
@@ -178,13 +181,11 @@ elif app_mode == "Contacto":
         ### [Perfil en LinkedIn](https://www.linkedin.com/in/morad-c-25b976202)
         """, unsafe_allow_html=True)
 
-    # Espaciado entre secciones
     st.markdown("---")
 
-    # Crear columnas para el logo de Gmail y el correo electrónico
     col1, col2 = st.columns([1, 4])
 
-    # Colocar el logo de Gmail en la primera columna y el correo en la segunda columna
+    # Colocar logo gmail en la primera columna y el correo en la segunda columna
     with col1:
         st.image("https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg", width=40)
 
@@ -196,15 +197,14 @@ elif app_mode == "Contacto":
     # Espaciado entre secciones
     st.markdown("---")
 
-    # Mensaje de bienvenida para la interacción
     st.markdown("""
-    Si tienes alguna pregunta no dudes en ponerte en contacto. ¡Quedo atento tu mensaje! 😊
+    Si tienes alguna pregunta no dudes en ponerte en contacto. 😊
     """)
 
 
-    # Pie de página atractivo
+    # Pie de página 
     st.markdown("<hr style='border: 2px solid #f63366;'>", unsafe_allow_html=True)
     st.markdown("Gracias por visitar mi página de contacto.", unsafe_allow_html=True)
     st.markdown(""" 
-    Almería, España 
+    Almería, España
     """)
