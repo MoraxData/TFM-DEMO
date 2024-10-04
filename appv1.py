@@ -90,7 +90,7 @@ Esta aplicación ha sido desarrollada para demostrar la capacidad de las **Redes
 Este trabajo se ha desarrollado como **Trabajo de Fin de Máster** para finalizar los estudios del Master en Inteligencia Artificial de la Univerisad Internacional de Valencia. Se presenta esta aplicación como apoyo a este trabajo y poner a pruebla el modelo mediante uso externo de otros usuarios.
 
 - Autor: Morad Charchaoui Oilad Ali
-- Fecha última actualización: 30/09/2024
+- Fecha última actualización: 05/10/2024
 """)
 
 # Página de prueba del modelo
