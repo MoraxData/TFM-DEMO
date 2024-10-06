@@ -121,7 +121,7 @@ elif app_mode == "Contacto":
         st.image("https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg", width=40)
 
     with col2:
-        st.markdown("### [Enviar un correo electrónico](mailto:morad11jr@gmail.com)", unsafe_allow_html=True)  # Enlace actualizado o marcador
+        st.markdown("### [Correo electrónico](mailto:morad11jr@gmail.com)", unsafe_allow_html=True)  # Enlace actualizado o marcador
 
     st.markdown("---")
 
