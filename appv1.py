@@ -4,6 +4,9 @@ from PIL import Image
 import numpy as np
 import pandas as pd
 
+# Config de la página
+st.set_page_config(page_title="Sistema de detección", page_icon="🍃", layout="centered")
+
 # Clases de nuestro problema
 class_names = [
     'Tomato___Bacterial_spot',
@@ -39,7 +42,7 @@ def model_prediccion(img):
     return predicted_class, predicted_probability
 
 # Página de navegación
-app_mode = st.sidebar.selectbox("Navegación de páginas", ["Inicio", "Prueba del modelo", "Contacto"])
+app_mode = st.sidebar.radio("Navegación de páginas", ["Inicio", "Prueba del modelo", "Contacto"])
 
 # Página de inicio
 if app_mode == "Inicio":
@@ -100,19 +103,11 @@ elif app_mode == "Prueba del modelo":
 # Página de contacto
 elif app_mode == "Contacto":
     st.title("Contacto")
-    st.markdown("## ¡Conecta conmigo!")
-
     # Crear columnas para separar secciones
     col1, col2 = st.columns([1, 4])
 
-    # Logo de LinkedIn
-    with col1:
-        st.image("https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png", width=40)
-
-    with col2:
-        st.markdown("### [LinkedIn](https://www.linkedin.com/in/morad-c-25b976202)", unsafe_allow_html=True)  # Enlace actualizado o marcador
-
-    st.markdown("---")
+    # st.markdown("<hr style='border: 2px solid #00913f;'>", unsafe_allow_html=True)
+    # st.markdown("---")
 
     col1, col2 = st.columns([1, 4])
 
@@ -123,11 +118,8 @@ elif app_mode == "Contacto":
     with col2:
         st.markdown("### [Correo electrónico](mailto:morad11jr@gmail.com)", unsafe_allow_html=True)  # Enlace actualizado o marcador
 
-    st.markdown("---")
 
     st.markdown("Si tienes alguna pregunta, no dudes en ponerte en contacto. 😊")
 
-    # Pie de página
-    st.markdown("<hr style='border: 2px solid #f63366;'>", unsafe_allow_html=True)
-    st.markdown("Gracias por visitar mi página de contacto.")
+    st.markdown("<hr style='border: 2px solid #00913f;'>", unsafe_allow_html=True)
     st.markdown("Almería, España")
